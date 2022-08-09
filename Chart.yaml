@@ -1,0 +1,8 @@
+apiVersion: v2
+name: optimizer
+version: 0.1.0
+description: Distributed optimization service to solve mathematical optimization problems.
+maintainers:
+  - name: alex
+    email: alexander.kressner@paramytr.com
+type: application

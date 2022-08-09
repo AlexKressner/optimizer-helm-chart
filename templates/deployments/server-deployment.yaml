@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: server
+  name: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+      - image: ic230302/paramytr
+        name: server
+        command: ["uvicorn"]
+        args: ["app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+        readinessProbe:
+          httpGet:
+            path: /healthcheck/
+            port: 8000
+          initialDelaySeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /healthcheck/
+            port: 8000
+          initialDelaySeconds: 10
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "250m"
+          limits:
+            memory: "250Mi"
+            cpu: "1000m"
+        env:
+        - name: REDIS_URL
+          value: "redis://backend-service:6379/0"
+        - name: CELERY_BROKER_URL
+          value: "redis://broker-service:6379/0"
+        - name: CELERY_RESULT_BACKEND
+          value: "redis://backend-service:6379/1"
+        ports:
+        - containerPort: 8000

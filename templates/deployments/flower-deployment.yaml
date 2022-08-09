@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: flower
+  name: flower
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flower
+  template:
+    metadata:
+      labels:
+        app: flower
+    spec:
+      containers:
+      - name: flower
+        image: ic230302/paramytr
+        command: ["sh"]
+        args: ["-c", "/simple_optimization_service/flower/start_flower.sh"]
+        ports:
+        - containerPort: 5555
+        readinessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 5555
+          initialDelaySeconds: 90 # takes some time until workers are ready
+        livenessProbe:
+          httpGet:
+            path: /healthcheck
+            port: 5555
+          initialDelaySeconds: 90 # takes some time until workers are ready
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "250Mi"
+            cpu: "500m"
+        env:
+        - name: REDIS_URL
+          value: "redis://backend-service:6379/0"
+        - name: CELERY_BROKER_URL
+          value: "redis://broker-service:6379/0"
+        - name: CELERY_RESULT_BACKEND
+          value: "redis://backend-service:6379/1"

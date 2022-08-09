@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: worker
+  name: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+    spec:
+      containers:
+      - image: ic230302/paramytr
+        name: worker
+        command: ["celery"]
+        args: ["-A", "app.workers.celery", "worker", "--loglevel=INFO"]
+        livenessProbe:
+          exec:
+            # bash is needed to replace the environment variable
+            command: [
+              "bash",
+              "-c",
+              "celery -A app.workers.celery inspect ping -d celery@$HOSTNAME"
+            ]
+          initialDelaySeconds: 30  # startup takes some time
+          periodSeconds: 60  # default is to high and celery uses a lot cpu/ram for probing (full cycle)
+          timeoutSeconds: 10  # default is to low
+        env:
+        - name: REDIS_URL
+          value: "redis://backend-service:6379/0"
+        - name: CELERY_BROKER_URL
+          value: "redis://broker-service:6379/0"
+        - name: CELERY_RESULT_BACKEND
+          value: "redis://backend-service:6379/1"
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            memory: "250Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
