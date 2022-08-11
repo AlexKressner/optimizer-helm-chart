@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: broker
+  namespace: {{ .Release.Namespace }}
   labels:
     app: broker
-  name: broker
+    {{- include "optimizer.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
@@ -16,7 +18,8 @@ spec:
     spec:
       containers:
       - name: broker
-        image: redis
+        {{- include "optimizer.brokerImage" . | nindent 8 }}
+        imagePullPolicy: {{ .Values.broker.image.pullPolicy }}
         resources:
           requests:
             memory: "64Mi"

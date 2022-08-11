@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: backend
+  namespace: {{ .Release.Namespace }}
   labels:
     app: backend
-  name: backend
+    {{- include "optimizer.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
@@ -16,7 +18,8 @@ spec:
     spec:
       containers:
       - name: backend
-        image: redis
+        {{- include "optimizer.backendImage" . | nindent 8 }}
+        imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
         resources:
           requests:
             memory: "64Mi"

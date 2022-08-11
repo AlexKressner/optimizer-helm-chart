@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: worker
+  namespace: {{ .Release.Namespace }}
   labels:
     app: worker
-  name: worker
+    {{- include "optimizer.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
@@ -15,8 +17,9 @@ spec:
         app: worker
     spec:
       containers:
-      - image: ic230302/paramytr
-        name: worker
+      - name: worker
+        {{- include "optimizer.defaultImage" . | nindent 8 }}
+        imagePullPolicy: {{ .Values.defaultImage.pullPolicy }}
         command: ["celery"]
         args: ["-A", "app.workers.celery", "worker", "--loglevel=INFO"]
         livenessProbe:

@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: flower
+  namespace: {{ .Release.Namespace }}
   labels:
     app: flower
-  name: flower
+    {{- include "optimizer.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
@@ -16,7 +18,8 @@ spec:
     spec:
       containers:
       - name: flower
-        image: ic230302/paramytr
+        {{- include "optimizer.defaultImage" . | nindent 8 }}
+        imagePullPolicy: {{ .Values.defaultImage.pullPolicy }}
         command: ["sh"]
         args: ["-c", "/simple_optimization_service/flower/start_flower.sh"]
         ports:

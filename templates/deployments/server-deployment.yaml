@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: server
+  namespace: {{ .Release.Namespace }}
   labels:
     app: server
-  name: server
+    {{- include "optimizer.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
@@ -15,8 +17,9 @@ spec:
         app: server
     spec:
       containers:
-      - image: ic230302/paramytr
-        name: server
+      - name: server
+        {{- include "optimizer.defaultImage" . | nindent 8 }}
+        imagePullPolicy: {{ .Values.defaultImage.pullPolicy }}
         command: ["uvicorn"]
         args: ["app.main:app", "--host", "0.0.0.0", "--port", "8000"]
         readinessProbe:

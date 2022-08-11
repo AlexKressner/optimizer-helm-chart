@@ -1,1 +1,24 @@
-namespace: dev
+# Defines default image for flower, server and worker
+defaultImage:
+  repository: "ic230302"
+  name: "paramytr"
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+# Define broker
+broker:
+  # Define broker image tag and pullPolicy (image is redis)
+  image:
+    tag: ""
+    pullPolicy: IfNotPresent
+
+# Define backend
+backend:
+  # Define backend image tag and pullPolicy (image is redis)
+  image:
+    tag: ""
+    pullPolicy: IfNotPresent
+
+
+# Apply extra labels to common labels.
+extraLabels: {}

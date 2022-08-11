@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: server-service
+  namespace: {{ .Release.Namespace }}
   labels:
     app: server-service
-  name: server-service
 spec:
   ports:
   - port: 8000
