@@ -22,3 +22,12 @@ backend:
 
 # Apply extra labels to common labels.
 extraLabels: {}
+
+# Ingress enablement
+ingress:
+  enabled: false
+
+
+# Persistent Volume Claims enablement
+persistence:
+  enabled: false

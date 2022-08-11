@@ -42,10 +42,14 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
           timeoutSeconds: 3 # default is to low
+        {{- if .Values.persistence.enabled -}}
         volumeMounts:
           - name: backend-volume-mount
             mountPath: /data
+        {{- end -}}
+      {{- if .Values.persistence.enabled -}}
       volumes:
       - name: backend-volume-mount
         persistentVolumeClaim:
           claimName: backend-pvc
+      {{- end -}}
