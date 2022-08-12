@@ -33,12 +33,7 @@ spec:
             port: 8000
           initialDelaySeconds: 10
         resources:
-          requests:
-            memory: "100Mi"
-            cpu: "250m"
-          limits:
-            memory: "250Mi"
-            cpu: "1000m"
+        {{- toYaml .Values.server.resources | nindent 10 }}
         env:
         - name: REDIS_URL
           value: "redis://backend-service:6379/0"
