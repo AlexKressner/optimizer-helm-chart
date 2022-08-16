@@ -1,25 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: broker
+  name: {{ .Values.broker.defaultNameOverride | default .Values.broker.defaultName }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: broker
     {{- include "optimizer.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: broker
+      {{- include "optimizer.broker.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: broker
+      {{- include "optimizer.broker.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - name: broker
         {{- include "optimizer.brokerImage" . | nindent 8 }}
-        imagePullPolicy: {{ .Values.broker.image.pullPolicy }}
+        imagePullPolicy: {{ .Values.broker.defaultImage.pullPolicy }}
         resources:
         {{- toYaml .Values.broker.resources | nindent 10 }}
         readinessProbe:

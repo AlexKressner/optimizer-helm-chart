@@ -1,25 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: {{ .Values.backend.defaultNameOverride | default .Values.backend.defaultName }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: backend
     {{- include "optimizer.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      {{- include "optimizer.backend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: backend
+        {{- include "optimizer.backend.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - name: backend
         {{- include "optimizer.backendImage" . | nindent 8 }}
-        imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+        imagePullPolicy: {{ .Values.backend.defaultImage.pullPolicy }}
         resources:
         {{- toYaml .Values.backend.resources | nindent 10 }}
         readinessProbe:

@@ -1,20 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: worker
+  name: {{ .Values.worker.defaultNameOverride | default .Values.worker.defaultName }}  
   namespace: {{ .Release.Namespace }}
   labels:
-    app: worker
     {{- include "optimizer.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: worker
+      {{- include "optimizer.worker.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: worker
+        {{- include "optimizer.worker.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - name: worker

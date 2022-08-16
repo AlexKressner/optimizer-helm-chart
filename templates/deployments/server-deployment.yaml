@@ -1,20 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: server
+  name: {{ .Values.server.defaultNameOverride | default .Values.server.defaultName }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: server
     {{- include "optimizer.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: server
+      {{- include "optimizer.server.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: server
+      {{- include "optimizer.server.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - name: server

@@ -7,6 +7,9 @@ defaultImage:
 
 ## Define server
 server:
+# Definde default name
+  defaultName: server
+  defaultNameOverride: ""
 # Define resource requests and limits
   resources:
     requests:
@@ -18,6 +21,9 @@ server:
 
 ## Define worker
 worker:
+# Definde default name
+  defaultName: worker
+  defaultNameOverride: ""
 # Define resource requests and limits
   resources:
     requests:
@@ -29,6 +35,9 @@ worker:
 
 ## Define flower
 flower:
+# Definde default name
+  defaultName: flower
+  defaultNameOverride: ""
 # Define resource requests and limits
   resources:
     requests:
@@ -40,9 +49,14 @@ flower:
 
 ## Define broker
 broker:
-  # Define broker image tag and pullPolicy (image is redis)
-  image:
-    tag: ""
+  # Definde default name
+  defaultName: broker
+  defaultNameOverride: ""
+  # Define broker image
+  defaultImage:
+    repository: ""
+    name: redis
+    tag: latest
     pullPolicy: IfNotPresent
   # Define resource requests and limits
   resources:
@@ -55,10 +69,15 @@ broker:
 
 ## Define backend
 backend:
-  # Define backend image tag and pullPolicy (image is redis)
-  image:
-    tag: ""
-    pullPolicy: IfNotPresent 
+  # Definde default name
+  defaultName: backend
+  defaultNameOverride: ""
+  # Define backend image
+  defaultImage:
+    repository: ""
+    name: redis
+    tag: latest
+    pullPolicy: IfNotPresent
   # Define resource requests and limits
   resources:
     requests:
