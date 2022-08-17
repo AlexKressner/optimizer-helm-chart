@@ -83,24 +83,24 @@ image: {{ printf "%s/%s:%s" .Values.defaultImage.repository .Values.defaultImage
 {{- end -}}
 
 {{/*
-Default image broker
+Image broker
 */}}
 {{- define "optimizer.brokerImage" -}}
-{{- if .Values.broker.defaultImage.repository -}}
-image: {{ printf "%s/%s:%s" .Values.broker.defaultImage.repository .Values.broker.defaultImage.name .Values.broker.defaultImage.tag }}
+{{- if .Values.broker.image.repository -}}
+image: {{ printf "%s/%s:%s" .Values.broker.image.repository .Values.broker.image.name .Values.broker.image.tag }}
 {{- else -}}
-image: {{ printf "%s:%s" .Values.broker.defaultImage.name .Values.broker.defaultImage.tag }}
+image: {{ printf "%s:%s" .Values.broker.image.name .Values.broker.image.tag }}
 {{- end -}}
 {{- end -}}
 
 {{/*
-Default image backend
+Image backend
 */}}
 {{- define "optimizer.backendImage" -}}
-{{- if .Values.backend.defaultImage.repository -}}
-image: {{ printf "%s/%s:%s" .Values.backend.defaultImage.repository .Values.backend.defaultImage.name .Values.backend.defaultImage.tag }}
+{{- if .Values.backend.image.repository -}}
+image: {{ printf "%s/%s:%s" .Values.backend.image.repository .Values.backend.image.name .Values.backend.image.tag }}
 {{- else -}}
-image: {{ printf "%s:%s" .Values.backend.defaultImage.name .Values.backend.defaultImage.tag }}
+image: {{ printf "%s:%s" .Values.backend.image.name .Values.backend.image.tag }}
 {{- end -}}
 {{- end -}}
 

@@ -18,7 +18,7 @@ spec:
       containers:
       - name: backend
         {{- include "optimizer.backendImage" . | nindent 8 }}
-        imagePullPolicy: {{ .Values.backend.defaultImage.pullPolicy }}
+        imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
         resources:
         {{- toYaml .Values.backend.resources | nindent 10 }}
         readinessProbe:

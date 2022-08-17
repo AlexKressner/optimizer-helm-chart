@@ -2,7 +2,7 @@
 defaultImage:
   repository: "ic230302"
   name: "paramytr"
-  tag: "0.1.0"
+  tag: "0.1.2"
   pullPolicy: IfNotPresent
 
 ## Define server
@@ -53,11 +53,14 @@ broker:
   defaultName: broker
   defaultNameOverride: ""
   # Define broker image
-  defaultImage:
+  image:
     repository: ""
     name: redis
     tag: latest
     pullPolicy: IfNotPresent
+  # Port and database
+  port: 6379
+  db: 0
   # Define resource requests and limits
   resources:
     requests:
@@ -73,11 +76,15 @@ backend:
   defaultName: backend
   defaultNameOverride: ""
   # Define backend image
-  defaultImage:
+  image:
     repository: ""
     name: redis
     tag: latest
     pullPolicy: IfNotPresent
+  # Port and databases for optimization results and instances
+  port: 6379
+  dbResult: 0
+  dbInstance: 1
   # Define resource requests and limits
   resources:
     requests:

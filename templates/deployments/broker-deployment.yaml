@@ -18,7 +18,7 @@ spec:
       containers:
       - name: broker
         {{- include "optimizer.brokerImage" . | nindent 8 }}
-        imagePullPolicy: {{ .Values.broker.defaultImage.pullPolicy }}
+        imagePullPolicy: {{ .Values.broker.image.pullPolicy }}
         resources:
         {{- toYaml .Values.broker.resources | nindent 10 }}
         readinessProbe:
