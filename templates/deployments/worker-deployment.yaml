@@ -34,12 +34,8 @@ spec:
           timeoutSeconds: 10  # default is to low
         resources:
         {{- toYaml .Values.worker.resources | nindent 10 }}
-        env:
-        - name: REDIS_URL
-          value: "redis://backend-service:6379/0"
-        - name: CELERY_BROKER_URL
-          value: "redis://broker-service:6379/0"
-        - name: CELERY_RESULT_BACKEND
-          value: "redis://backend-service:6379/1"
+        envFrom:
+          - configMapRef:
+              name: optimizer-config
         ports:
         - containerPort: 8000

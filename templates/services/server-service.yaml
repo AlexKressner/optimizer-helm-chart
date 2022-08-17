@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: server-service
+  name: {{ template "optimizer.server.serviceName" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: server-service
+    {{- include "optimizer.labels" . | nindent 4 }}
 spec:
   ports:
   - port: 8000

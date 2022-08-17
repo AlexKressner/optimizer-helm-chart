@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: flower-service
+  name: {{ template "optimizer.flower.serviceName" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: flower-service
+    {{- include "optimizer.labels" . | nindent 4 }}
 spec:
   ports:
   - port: 5555

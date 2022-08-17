@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: optimizer-config
+data:
+  REDIS_URL: "redis://backend-service:6379/0"
+  CELERY_BROKER_URL: "redis://broker-service:6379/0"
+  CELERY_RESULT_BACKEND: "redis://backend-service:6379/1"

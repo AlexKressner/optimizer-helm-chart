@@ -103,3 +103,47 @@ image: {{ printf "%s/%s:%s" .Values.backend.defaultImage.repository .Values.back
 image: {{ printf "%s:%s" .Values.backend.defaultImage.name .Values.backend.defaultImage.tag }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Backend service name
+*/}}
+{{- define "optimizer.backend.serviceName" -}}
+{{- if .Values.backend.defaultNameOverride -}}
+{{ printf "%s-service" .Values.backend.defaultNameOverride }}
+{{- else -}}
+{{ printf "%s-service" .Values.backend.defaultName }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Broker service name
+*/}}
+{{- define "optimizer.broker.serviceName" -}}
+{{- if .Values.broker.defaultNameOverride -}}
+{{ printf "%s-service" .Values.broker.defaultNameOverride }}
+{{- else -}}
+{{ printf "%s-service" .Values.broker.defaultName }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Flower service name
+*/}}
+{{- define "optimizer.flower.serviceName" -}}
+{{- if .Values.flower.defaultNameOverride -}}
+{{ printf "%s-service" .Values.flower.defaultNameOverride }}
+{{- else -}}
+{{ printf "%s-service" .Values.flower.defaultName }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Server service name
+*/}}
+{{- define "optimizer.server.serviceName" -}}
+{{- if .Values.server.defaultNameOverride -}}
+{{ printf "%s-service" .Values.server.defaultNameOverride }}
+{{- else -}}
+{{ printf "%s-service" .Values.server.defaultName }}
+{{- end -}}
+{{- end -}}
